@@ -83,9 +83,11 @@ function calcWR(topN, type) {
 		.slice(0, topN)
 		.map(r => ({ ...r, title: titles[r.id] }));
 
-	const topArray = [['id', 'MR', 'Title'], ...top.map(r => [r.id, r.mr.toString(), r.title])];
+	const topArray = [['link', 'id', 'MR', 'Title'], ...top.map(r => [`https://www.imdb.com/title/${r.id}`, r.id, r.mr.toString(), r.title])];
 	const topTsv = tsv_json.json2tsv(topArray);
-	fs.writeFileSync(`top_${topN}.tsv`, topTsv);
+	const topTsvFile = `top_${topN}.tsv`;
+	fs.writeFileSync(topTsvFile, topTsv);
+	console.log(`Top ${topN} is saved to ${topTsvFile}`);
 }
 
 const obs = new PerformanceObserver((entries) => {
