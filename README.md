@@ -14,12 +14,16 @@ C = the mean vote across the whole report
 
 
 ## IMDb Datasets
-https://www.imdb.com/interfaces/
-https://datasets.imdbws.com/
+files: https://datasets.imdbws.com/  
+description: https://www.imdb.com/interfaces/  
 
-download and unzip:
+run included `update.sh` (linux only)
+
+or download and unzip:
 * `title.ratings.tsv.gz` to `ratings.tsv`
 * `title.basics.tsv.gz` to `titles.tsv`
+
+
 
 ## Run
 
