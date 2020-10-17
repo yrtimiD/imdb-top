@@ -11,7 +11,7 @@ const TYPES_JSON = 'types.json';
 
 function load(jsonFile) {
 	if (fs.existsSync(jsonFile)) {
-		data = JSON.parse(fs.readFileSync(jsonFile, 'utf8'));
+		return JSON.parse(fs.readFileSync(jsonFile, 'utf8'));
 	} else {
 		console.error(`${jsonFile} does not exist. Run: npm start create`);
 		process.exit(2);
@@ -72,10 +72,10 @@ function calcWR(topN, type) {
 	console.log(`Loaded ${ratings.length} ratings`);
 
 	const titles = load(TITLES_JSON);
-	console.log(`Loaded ${titles.length} titles`);
+	console.log(`Loaded ${Object.keys(titles).length} titles`);
 
 	const types = load(TYPES_JSON);
-	console.log(`Loaded ${types.length} types`);
+	console.log(`Loaded ${Object.keys(types).length} types`);
 
 
 	const top = ratings
