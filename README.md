@@ -21,4 +21,15 @@ download and unzip:
 * `title.ratings.tsv.gz` to `ratings.tsv`
 * `title.basics.tsv.gz` to `titles.tsv`
 
+## Run
 
+```sh
+npm run create
+```
+Creates required json files (required only once on each dataset update). Expect high memory usage.
+
+
+```sh
+npm start
+```
+To actually calculate top N. Result will be saved to the `top_N.tsv` file.
