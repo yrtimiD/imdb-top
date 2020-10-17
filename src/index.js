@@ -29,20 +29,19 @@ function createRatings(tsvInput, jsonOutput) {
 	 */
 
 	const ratingsTsv = fs.readFileSync(tsvInput, 'utf8');
-	const usableRatings = tsv_json.tsv2json(ratingsTsv).slice(1)
-		.map(i => ({ id: i[0], r: parseFloat(i[1]), v: parseInt(i[2]) }))
-		.filter(r => r.v >= 25000);
-	const meanRating = usableRatings.reduce((p, c) => p + c.r, 0) / usableRatings.length;
+	const allRatings = tsv_json.tsv2json(ratingsTsv).slice(1).map(i => ({ id: i[0], r: parseFloat(i[1]), v: parseInt(i[2]) }));
 
-	const ratings = usableRatings.map(r => {
-		const mr = (r.v / (r.v + 25000) * r.r) + ((25000 / (r.v + 25000)) * meanRating);
+	const C = allRatings.reduce((p, c) => p + c.r, 0) / allRatings.length;
+	const m = 25000;
+	const ratings = allRatings.map(r => {
+		const wr = (r.v / (r.v + m) * r.r) + ((m / (r.v + m)) * C);
 		return {
 			...r,
-			mr: Math.round(mr * 1000) / 1000
+			wr: Math.round(wr * 10000) / 10000
 		};
 	});
 
-	const orderedRatings = ratings.sort((a, b) => b.mr - a.mr);
+	const orderedRatings = ratings.sort((a, b) => b.wr - a.wr);
 
 	console.log(`Saving ${orderedRatings.length} ratings to ${jsonOutput}`);
 	fs.writeFileSync(jsonOutput, JSON.stringify(orderedRatings));
@@ -90,7 +89,7 @@ function calcWR(topN, type) {
 		.slice(0, topN)
 		.map(r => ({ ...r, title: titles[r.id] }));
 
-	const topArray = [['link', 'id', 'MR', 'Title'], ...top.map(r => [`https://www.imdb.com/title/${r.id}`, r.id, r.mr.toString(), r.title])];
+	const topArray = [['link', 'id', 'WR', 'Title'], ...top.map(r => [`https://www.imdb.com/title/${r.id}`, r.id, r.wr.toString(), r.title])];
 	const topTsv = tsv_json.json2tsv(topArray);
 	const topTsvFile = `top_${topN}.tsv`;
 	fs.writeFileSync(topTsvFile, topTsv);
