@@ -34,6 +34,6 @@ Creates required json files (required only once on each dataset update). Expect 
 
 
 ```sh
-npm start
+npm start N
 ```
 To actually calculate top N. Result will be saved to the `top_N.tsv` file.

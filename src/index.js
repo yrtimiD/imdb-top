@@ -104,7 +104,8 @@ const obs = new PerformanceObserver((entries) => {
 obs.observe({ entryTypes: ["measure"] });
 
 if (process.argv.length > 2) {
-	const command = process.argv[2];
+	const [_, __, command, param] = process.argv;
+
 	switch (command) {
 		case 'create-ratings':
 			console.log(`Creating ${RATINGS_JSON}...`)
@@ -120,6 +121,8 @@ if (process.argv.length > 2) {
 			const uniqueTypes = new Set(Object.values(types));
 			if (!fs.existsSync('types_list.txt')) fs.writeFileSync('types_list.txt', Array.from(uniqueTypes.values()));
 			break;
+		case 'calc':
+			calcWR(parseInt(param) || 1000, 'movie');
 		default:
 			console.error(`Unknown command ${command}`);
 			process.exit(1);
