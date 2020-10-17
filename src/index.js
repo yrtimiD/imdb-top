@@ -32,8 +32,15 @@ function createRatings(tsvInput, jsonOutput) {
 	const usableRatings = tsv_json.tsv2json(ratingsTsv).slice(1)
 		.map(i => ({ id: i[0], r: parseFloat(i[1]), v: parseInt(i[2]) }))
 		.filter(r => r.v >= 25000);
-	const meanRating = usableRatings
-	const ratings = usableRatings.map(r => ({ ...r, mr: r.v / (r.v + 25000) * r.r }))
+	const meanRating = usableRatings.reduce((p, c) => p + c.r, 0) / usableRatings.length;
+
+	const ratings = usableRatings.map(r => {
+		const mr = (r.v / (r.v + 25000) * r.r) + ((25000 / (r.v + 25000)) * meanRating);
+		return {
+			...r,
+			mr: Math.round(mr * 1000) / 1000
+		};
+	});
 
 	const orderedRatings = ratings.sort((a, b) => b.mr - a.mr);
 
