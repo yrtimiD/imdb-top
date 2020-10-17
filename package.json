@@ -1,0 +1,20 @@
+{
+  "name": "imdb-top",
+  "version": "1.0.0",
+  "description": "",
+  "main": "src/index.js",
+  "scripts": {
+	"test": "echo \"Error: no test specified\" && exit 1",
+	"start": "node --max-old-space-size=12000 src/index.js",
+	"create-ratings": "node --max-old-space-size=12000 src/index.js create-ratings",
+	"create-titles": "node --max-old-space-size=12000 src/index.js create-titles",
+	"create-types": "node --max-old-space-size=12000 src/index.js create-types",
+	"create": "npm run create-ratings && npm run create-titles && npm run create-types"
+  },
+  "keywords": [],
+  "author": "Dmitry Gurovich <yrtimid@gmail.com>",
+  "license": "wtfpl",
+  "dependencies": {
+    "tsv-json": "^1.0.0"
+  }
+}
